@@ -1,4 +1,4 @@
-@extends('spark::layouts.app')
+@extends('layouts.app')
 @section('content')
 {!! Form::model($event,['method'=>'PATCH','action' => ['EventController@update',$event->id]]) !!}
   @include('events.form')

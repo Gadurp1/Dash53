@@ -34,13 +34,14 @@
     <!-- Scripts -->
     @yield('scripts', '')
     <style media="screen">
-      p,b,h2,h3,h4,h5,h1,input,input,.navbar-brand,a.btn{
+      h2,h3,h4,h5,h1,.navbar-brand,a.btn{
         font-family: 'Amatic SC', cursive;
       }
       p strong{
         font-size:24px;
 
       }
+      
       div.v-align h2.title{
         font-size:32px
       }
@@ -53,13 +54,16 @@
         font-family: 'Amatic SC', cursive;
 
       }
+      .grid-container{
+        width:70%
+      }
     </style>
 
 </head>
 <body class="with-navbar" v-cloak>
   @include('layouts.nav.guest')
 </div>
-<br><br><br><br>
+<br>
   @yield('content')
 </body>
 <!-- JavaScript -->

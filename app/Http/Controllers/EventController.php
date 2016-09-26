@@ -23,15 +23,24 @@ class EventController extends Controller
       $now = \Carbon\Carbon::now();
       $future = \Carbon\Carbon::now()->addWeeks(2);
       $per_page=1;
+
       $query=ArtistEvent::upcomingEvents()
-          ->selectRaw('artists.tracker_count,events.id,events.image_url as image_url,events.id as event_id,artists.name as name,artists.mbid,events.name as title,events.date,artists.image_url');
+          ->selectRaw('artists.tracker_count,events.id,events.image_url as image_url,events.id as event_id,artists.name as name,artists.mbid,events.name as title,events.date,artists.image_url')
+          ->where('events.date','>',$now);
       $search=null;
+
       if($request->search){
         $search=$request->search;
         $query->where('artists.name','LIKE','%'.$search.'%')
             ->orWhere('events.name','LIKE','%'.$search.'%');
       }
-      $events=$query->orderBy('date','asc')
+
+      if($request->rank){
+        $rank=$request->rank;
+        $query->where('tracker_count','<',$rank);
+      }
+
+      $events=$query->orderBy('events.date','ASC')
           ->paginate(50);
 
       return view('events.index',compact('events','search'));
@@ -80,13 +89,16 @@ class EventController extends Controller
 
       /* De-Sluggify Url Params */
       $event=Event::where('name',$event)->first();
-      $fuzzies=Event::where('name','Like','%'.$event->name.'%')->pluck('id');
+      $fuzzies=Event::where('name','Like','%'.$event->name.'%')
+          ->where('date','>=',$now)
+          ->pluck('id');
 
       $artist_detail=ArtistEvent::where('name',$artist)->first();
 
       $artists=ArtistEvent::whereIn('event_id',$fuzzies)
           ->orderBy('tracker_count','DESC')
-          ->paginate(5);
+          ->paginate(6);
+
       $venue=\App\Models\Venue::where('id',$event->venue_id)->first();
       return view('events.show',compact('event','artists','venue','artist_detail','additional_events'));
     }

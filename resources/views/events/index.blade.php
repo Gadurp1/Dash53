@@ -10,11 +10,12 @@
   .animate-box.image{
     border-top:2px solid #43c8ae;
   }
+
 </style>
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 </head>
 
-  <div id="fh5co-work-section" class="fh5co-light-grey-section" >
+  <div id="fh5co-work-section" class="fh5co-light-grey-section"  >
     <div class="container">
       <div class="">
         <h1 class="text-center">Search for all events going on in chicago</h1>
@@ -29,13 +30,13 @@
 
             <center >
               <div class="navbar-collapse collapse" style="padding-bottom:1em;padding-top:1em;" id="navbar-main">
-                <form class=" " role="search">
+                <form class="" method="GET" role="search">
                   <div class="row">
                     <div class="col-md-7">
                       <input type="text" class="form-control col-md-8" name="search" autofocus="autofocus" placeholder="Artist, Venue, Event" active>
                     </div>
                     <div class="col-md-2">
-                      <select class="form-control" name="">
+                      <select class="form-control">
                         <option>Underground</option>
                         <option>Up And Coming</option>
                         <option>Well Known</option>
@@ -44,12 +45,12 @@
                       </select>
                     </div>
                     <div class="col-md-2">
-                      <select class="form-control" name="">
-                        <option>Underground</option>
-                        <option>Up And Coming</option>
-                        <option>Well Known</option>
-                        <option>Everyone Knows Them</option>
-                        <option>Chart Toppers</option>
+                      <select class="form-control" name="rank">
+                        <option value="1000">Underground</option>
+                        <option value="25000">Up And Coming</option>
+                        <option value="100000">This Weekend</option>
+                        <option value="50000">Everyone Knows Them</option>
+                        <option value="10000000">Chart Toppers</option>
                       </select>
                     </div>
                     <div class="col-md-1">
@@ -62,19 +63,7 @@
           </div>
         </div>
         <br><br>
-			<div col-lass="row">
-        <div class="col-md-8 animate-box" >
-          <a href="" class="item-grid text-center" style="border-left:2px solid turquoise">
-          <div class="image" style="height:15em;background-image: url({{$events->last()->image_url}})"></div>
-          <div class="v-align" style="height:10em">
-            <div class="v-align-middle">
-              <h2 class="title" style="line-height:15px">  <strong>{{$events->last()->name}} @   {{$events->last()->title}}</strong></h2>
-              <h3 class="category">{{date('D M d, Y',strtotime($events->last()->date))}}</h3>
-
-            </div>
-          </div>
-          </a>
-        </div>
+			<div col-lass="row  grid-container">
 
         @foreach($events as $event)
         <?php
@@ -97,7 +86,7 @@
 
         @endforeach
 				<div class="col-md-12 text-center animate-box">
-					<p><a href="#" class="btn btn-primary with-arrow">Load More <i class="icon-arrow-right"></i></a></p>
+          {{$events->appends(Request::except('page'))->render()}}
 				</div>
 			</div>
 		</div>

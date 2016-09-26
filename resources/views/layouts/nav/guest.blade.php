@@ -24,9 +24,11 @@
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
               @include('layouts.nav.user-right')
+              <div class="hidden">
 
-                <li><a href="/login" class="navbar-link"><strong>Login</strong></a></li>
-                <li><a href="/register" class="navbar-link"><strong>Register</strong></a></li>
+                                <li><a href="/login" class="navbar-link"><strong>Login</strong></a></li>
+                                <li><a href="/register" class="navbar-link"><strong>Register</strong></a></li>
+              </div>
             </ul>
         </div>
     </div>

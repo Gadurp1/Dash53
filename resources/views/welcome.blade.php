@@ -1,91 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
+@section('content')
+<style media="screen">
+  div.blog-item:hover{
+  border-left:4px solid #27e1ce;
+  }
+  .jumbotron {
+  background: url('http://az616578.vo.msecnd.net/files/2016/04/24/6359707218968182761485027386_lollapalooza-crowd-at-cage-the-elephant-lollapalooza-2014-by-joshua-mellin.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+</style>
 
-        <title>Laravel</title>
+<div class="jumbotron" >
+  <div class="container text-center">
+    <h1 style="color:#fff;background:#000"><strong>What are you looking to do tonight?</strong></h1>
+    <form class="" action="index.html" method="post">
+      <div class="form-group">
+        <label for=""></label>
+        <input type="text" class="form-control" style="background:#fff;" id="" placeholder="" active>
+      </div>
+    </form>
+  </div>
+  <p></p>
+</div>
+  <div id="fh5co-work-section" class="fh5co-light-grey-section" >
+    <div class="container">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+<div col-lass="row">
+  <div class="col-md-8 animate-box" >
+    <a href="" class="item-grid text-center" style="border-left:2px solid turquoise">
+    <div class="image" style="height:15em;background-image: url({{$events->last()->image_url}})"></div>
+    <div class="v-align" style="height:10em">
+      <div class="v-align-middle">
+        <h2 class="title" style="line-height:15px">  <strong>{{$events->last()->name}} @   {{$events->last()->title}}</strong></h2>
+        <h3 class="category">{{date('D M d, Y',strtotime($events->last()->date))}}</h3>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+      </div>
+    </div>
+    </a>
+  </div>
 
-            .full-height {
-                height: 100vh;
-            }
+  @foreach($events as $event)
+  <?php
+    $event_link=str_replace(' ', '-', $event->title);
+    $name_link=str_replace(' ', '-', $event->name);
+  ?>
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+  <div class="@if($events->count() < 6) col-md-12 @else col-md-4 @endif  animate-box" >
+    <a href="{{url('Events/'.$event_link.'/'.$name_link.'')}}" class="item-grid text-center">
+    <div class="image" style="height:15em;background-image: url({{$event->image_url}})"></div>
+    <div class="v-align" style="height:9em">
+      <div class="v-align-middle">
+        <h2 class="title" ><strong>{{$event->name}} @ {{$event->title}}</strong></h2>
+        <h4 class="category hidden">{{date('D M d, Y',strtotime($event->date))}}</h4>
 
-            .position-ref {
-                position: relative;
-            }
+      </div>
+    </div>
+    </a>
+  </div>
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+  @endforeach
+  <div class="col-md-12 text-center animate-box">
+    <p><a href="#" class="btn btn-primary with-arrow">Load More <i class="icon-arrow-right"></i></a></p>
+  </div>
+</div>
+</div>
+</div>
 
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    <a href="{{ url('/login') }}">Login</a>
-                    <a href="{{ url('/register') }}">Register</a>
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
+</div>
+@stop

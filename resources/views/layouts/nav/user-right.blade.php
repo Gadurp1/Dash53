@@ -1,12 +1,12 @@
 <!-- Right Side Of Navbar -->
 
-<li><a href="{{url('festivals')}}">
+<li class="hidden"><a href="{{url('festivals')}}">
   <strong>
     Fests
   </strong>
   </a>
 </li>
-<li><a href="{{url('Venues')}}">
+<li class="hidden"><a href="{{url('Venues')}}">
   <strong>
     Venues
   </strong>
@@ -18,7 +18,7 @@
   </strong>
   </a>
 </li>
-<li><a href="{{url('Blogs')}}">
+<li><a href="{{url('Blog')}}">
   <strong>
     Blog
   </strong>

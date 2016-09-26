@@ -23,6 +23,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+      $events=\App\Models\ArtistEvent::upcomingEvents()
+          ->selectRaw('artists.tracker_count,events.id,events.image_url as image_url,events.id as event_id,artists.name as name,artists.mbid,events.name as title,events.date,artists.image_url')
+          ->orderBy('date','asc')
+              ->paginate(50);
+        return view('welcome',compact('events'));
     }
+
+
 }

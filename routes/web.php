@@ -17,10 +17,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('/home', 'ClientsController');
+Route::resource('/home', 'HomeController');
 
 Route::resource('Event', 'EventController');
+Route::get('Four', 'FoursquareController@getPage');
 
 Route::get('Events', 'EventController@index');
 Route::get('Events/{venue}/{artist}', 'EventController@show');
-Route::resource('Blogs', 'BlogController');
+Route::resource('Blog', 'Blog\PostController');
+
+Route::get('lastfm/{artist}', 'BandController@getPage', function () {
+    return view('api.lastfm');
+});
