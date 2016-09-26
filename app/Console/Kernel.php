@@ -16,8 +16,8 @@ class Kernel extends ConsoleKernel
         Commands\Inspire::class,
         Commands\ChecksChart::class,
         Commands\ChecksChart2::class,
-
         Commands\GetEvents::class,
+        Commands\GetVenues::class,
 
     ];
 

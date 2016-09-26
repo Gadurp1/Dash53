@@ -8,7 +8,7 @@
             <h3><i style="color: #db1302" class="fa fa-play-circle-o"></i> {{ $details->name }}</h3>
         </div>
 
-        <img src="http://img2-ak.lst.fm/i/u/arQ/548cf8296e0e446bc4193a5b5a94bfb7.png" class="thumbnail">
+        <img src="{{ $details->image[2]->{'#text'} }}" class="thumbnail">
 
         <h3> Tags </h3>
 
@@ -17,11 +17,11 @@
         @endforeach
 
         <h3> Biography </h3>
-        <p>{!! $details->bio->content !!}</p>
+        <p>{!! $details->bio->summary !!}</p>
 
         <h3> Top Albums </h3>
         @foreach ($albums as $album)
-            <img src="{{ $album->image[3]->{'#text'} }}" width="150" height="150">
+            <a href="{{$album->url}}"><img src="{{ $album->image[3]->{'#text'} }}" width="150" height="150"></a>
         @endforeach
 
         <h3> Top Tracks </h3>

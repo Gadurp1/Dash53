@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <style>
      html, body {
        height: 100%;
@@ -13,42 +14,21 @@
 
    </style>
    <style>
-   h2 span             { color: white;  letter-spacing: -1px;
-                       }
-   h2 span.spacer      { padding: 5 2px; background: none }
-   .btn-white{
-     background:none;
-     border:1px solid #fff;
-     font-weight:600;
-     color:#fff;
-   }
-   </style>
-<div class="container">
-  <script>
+    h2 span{
+      color: white;  letter-spacing: -1px;
+    }
 
-       // This example adds a marker to indicate the position of Bondi Beach in Sydney,
-       // Australia.
-       function initMap() {
-         var map = new google.maps.Map(document.getElementById('map'), {
-           zoom: 16,
-           scrollwheel: false,
-   navigationControl: false,
-   mapTypeControl: false,
-   scaleControl: false,
-   draggable: false,
-           center: {lat: {{$venue->lat}}, lng: {{$venue->long}}},
-         });
+  h2 span.spacer{
+    padding: 5 2px; background: none
+  }
 
-         var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-         var beachMarker = new google.maps.Marker({
-           position: {lat: {{$venue->lat}}, lng: {{$venue->long}}},
-           map: map,
-           icon: image
-         });
-       }
-     </script>
-</div>
-
+  .btn-white{
+    background:none;
+    border:1px solid #fff;
+    font-weight:600;
+    color:#fff;
+  }
+</style>
 <aside id="fh5co-hero" class="js-fullheight" style="margin-top:-10px">
   <div class="flexslider js-fullheight">
     <ul class="slides">
@@ -65,8 +45,7 @@
         <div class="container">
           <div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
             <div class="slider-text-inner">
-              <h2><strong><small style="color:#fff">{{date('D M d, Y',strtotime($artist_detail->event->date))}}</small></strong></h2>
-
+              <h2><strong><small style="color:#fff">{{date('D M d, Y h:ia',strtotime($artist_detail->event->date))}}</small></strong></h2>
               <h2 class="title">
                 <span><strong>{{$artist_detail->name}} @  {{$event->name}}</strong></span>
               <h2>
@@ -90,6 +69,28 @@
 </aside>
 
 <div id="more">
+  <script>
+
+       // This example adds a marker to indicate the position of Bondi Beach in Sydney,
+       // Australia.
+       function initMap() {
+         var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 16,
+            scrollwheel: false,
+            navigationControl: false,
+            mapTypeControl: false,
+            scaleControl: false,
+            draggable: false,
+            center: {lat: {{$venue->lat}}, lng: {{$venue->long}}},
+         });
+         var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+         var beachMarker = new google.maps.Marker({
+           position: {lat: {{$venue->lat}}, lng: {{$venue->long}}},
+           map: map,
+           icon: image
+         });
+       }
+     </script>
 
 </div>
 <div id="fh5co-work-section" class="fh5co-light-grey-section">
@@ -149,6 +150,39 @@
             </div>
           </div>
         </div>
+        <img src="{{ $details->image[2]->{'#text'} }}" class="thumbnail">
+
+        <h3> Tags </h3>
+
+        @foreach ($details->tags->tag as $tag)
+            <span class="label label-primary"><i class="fa fa-tag"></i> {{ $tag->name }}</span>
+        @endforeach
+
+        <h3> Biography </h3>
+        <p>{!! $details->bio->summary !!}</p>
+
+        <h3> Top Albums </h3>
+        @foreach ($albums as $album)
+            <a href="{{$album->url}}"><img src="{{ $album->image[3]->{'#text'} }}" width="150" height="150"></a>
+        @endforeach
+        <hr>
+        <h3> Top Tracks </h3>
+        <ul class="list-group">
+
+            @foreach ($tracks as $track)
+                <li class="list-group-item"><a href="{{ $track->url }}">{{ $track->name }}</a></li>
+            @endforeach
+        </ul>
+
+        <div class="hidden">
+          <h3> Similar Artists </h3>
+          <ul class="list-group">
+              @foreach ($details->similar->artist as $artist)
+                  <li class="list-group-item"><a href="{{ $artist->url }}">{{ $artist->name }}</a></li>
+              @endforeach
+          </ul>
+
+        </div>
       </div>
 
 
@@ -191,7 +225,4 @@
 </div>
 </div>
 </div>
-
 @stop
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnwQ6wvh-J0HHE-492La6liEN9hX0l-mI&callback=initMap"
-async defer></script>

@@ -7,9 +7,27 @@ use DB;
 use App\Models\Event;
 use Spatie\Analytics\Period;
 use App\Models\ArtistEvent;
+use Dandelionmood\LastFm\LastFm;
 
 class EventController extends Controller
 {
+  /**
+   * @var array
+   */
+
+  /**
+   * LastFm Object
+   * @var object;
+   */
+  protected $lastfm;
+
+  /**
+   * Initialize the Controller with necessary arguments
+   */
+  public function __construct()
+  {
+      $this->lastfm = new LastFm(env('LASTFM_API_KEY'), env('LASTFM_API_SECRET'));
+  }
 
 
     /**
@@ -79,6 +97,11 @@ class EventController extends Controller
      */
     public function show($venue,$artist)
     {
+      $details = $this->getArtistInfo($artist);
+
+      $albums = array_slice($this->getTopAlbums($artist), 0, 4);
+
+      $tracks = array_slice($this->getTopTracks($artist), 0, 10);
       /* De-Sluggify Url Params */
       $event=str_replace('-', ' ', $venue);
       $artist=str_replace('-', ' ', $artist);
@@ -100,6 +123,41 @@ class EventController extends Controller
           ->paginate(6);
 
       $venue=\App\Models\Venue::where('id',$event->venue_id)->first();
-      return view('events.show',compact('event','artists','venue','artist_detail','additional_events'));
+      return view('events.show',compact('event','artists','venue','artist_detail','additional_events'))
+      ->withDetails($details)
+                               ->withAlbums($albums)
+                               ->withTracks($tracks);
+    }
+    /**
+     * Get Artist Info
+     * @return array
+     */
+    private function getArtistInfo($artist)
+    {
+        $result = (array)$this->lastfm->artist_getInfo(['artist' => $artist]);
+
+        return $result['artist'];
+    }
+
+    /**
+     * Get Top Albums
+     * @return array
+     */
+    private function getTopAlbums($artist)
+    {
+        $result = (array)$this->lastfm->artist_getTopAlbums(['artist' => $artist]);
+
+        return $result['topalbums']->album;
+    }
+
+    /**
+     * Get Top Tracks
+     * @return array
+     */
+    private function getTopTracks($artist)
+    {
+        $result = (array)$this->lastfm->artist_getTopTracks(['artist' => $artist]);
+
+        return $result['toptracks']->track;
     }
 }

@@ -27,5 +27,5 @@ Route::get('Events/{venue}/{artist}', 'EventController@show');
 Route::resource('Blog', 'Blog\PostController');
 
 Route::get('lastfm/{artist}', 'BandController@getPage', function () {
-    return view('api.lastfm');
+    return $details;
 });

@@ -25,7 +25,7 @@ class FoursquareController extends Controller
         // Searching for venues nearby e.g Lagos, Nigeria
         $endpoint = 'venues/search';
         // Prepare parameters
-        $params = ['near' => 'Chicago, Illinois'];
+        $params = ['near' => 'Chicago, Illinois','limit' => 1000,'offset',0];
         // Perform a request to a public resource
         $response = json_decode($this->foursquare->GetPublic($endpoint,$params),true);
         return $response['response']['venues'];

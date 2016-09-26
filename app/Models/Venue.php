@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Venue extends Model {
 
-	protected $table = 'venues';
+	protected $table = 'foursquare_venues';
 	public $timestamps = true;
-
 
 }

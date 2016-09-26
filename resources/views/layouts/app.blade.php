@@ -41,7 +41,7 @@
         font-size:24px;
 
       }
-      
+
       div.v-align h2.title{
         font-size:32px
       }
